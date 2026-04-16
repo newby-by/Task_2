@@ -4,6 +4,7 @@ attrs==26.1.0
 certifi==2026.2.25
 charset-normalizer==3.4.7
 colorama==0.4.6
+Faker==40.13.0
 idna==3.11
 iniconfig==2.3.0
 packaging==26.1
@@ -11,4 +12,5 @@ pluggy==1.6.0
 Pygments==2.20.0
 pytest==9.0.3
 requests==2.33.1
+tzdata==2026.1
 urllib3==2.6.3
