@@ -1,16 +1,17 @@
 import allure
 import requests
 
+from methods.base_method import BaseMethod
 
-class UserMethod:
 
-    def __init__(self, url):
-        self.url = url
+class UserMethod(BaseMethod):
 
     @allure.step('Register a user with payload={payload}')
     def register(self, payload):
-        response = requests.post(
-            url=self.url,
-            data=payload
-        )
+        response = self.post(payload=payload)
+        return response
+
+    @allure.step('Login a user with payload={payload}')
+    def login(self, payload):
+        response = self.post(payload=payload)
         return response
