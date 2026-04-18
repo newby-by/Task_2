@@ -7,7 +7,7 @@
 ## What tests are done
 
 1. Create a user:
-    - create a unique user;
+    * create a unique user:
 
     **REQUEST**
 
@@ -30,8 +30,24 @@
     }
     ```
 
-    create a user with existent data;
-    create a user without a required field.
+    * create a user with existent data:
+
+    **REQUEST**
+
+    ```bash
+    curl POST -H 'Content-Type:application/json' -d '{"email":"cruiz12@example.net","password":"Qfdrfrrrffv123","name":"Sharon Chen53"}' https://stellarburgers.education-services.ru/api/auth/register
+    ```
+
+    **RESPONSE**
+
+    ```json
+        {
+            "success":false,
+            "message":"User already exists"
+        }
+    ```
+
+    * create a user without a required field.
 
 2. Login:
     login with existent user data;
