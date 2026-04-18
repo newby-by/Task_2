@@ -32,3 +32,21 @@ class UserData:
         self.user['password'] = self.password
         self.user['name'] = self.name
         return self.user
+
+    @property
+    def without_email(self):
+        self.user['password'] = self.password
+        self.user['name'] = self.name
+        return self.user
+
+    @property
+    def without_password(self):
+        self.user['email'] = self.email
+        self.user['name'] = self.name
+        return self.user
+
+    @property
+    def without_name(self):
+        self.user['email'] = self.email
+        self.user['password'] = self.password
+        return self.user

@@ -48,6 +48,20 @@
     ```
 
     * create a user without a required field.
+  
+        email required:
+
+    **REQUEST**
+
+    ```bash
+    curl POST -H 'Content-Type:application/json' -d '{"password":"Qfdrfrrrffv123","name":"Sharon Chen53"}' https://stellarburgers.education-services.ru/api/auth/register
+    ```
+
+    **RESPONSE**
+
+    ```json
+    {"success":false,"message":"Email, password and name are required fields"}
+    ```
 
 2. Login:
     login with existent user data;
