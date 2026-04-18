@@ -4,11 +4,15 @@ import requests
 
 
 class BaseMethod(ABC):
+     
+    def __init__(self, url):
+        self.url = url
 
-    def post(self, *, url, payload, headers):
+    def post(self, *, payload, params=None, headers=None):
         response = requests.post(
-            url=url,
-            data=payload, 
+            url=self.url,
+            data=payload,
+            params=params,
             headers=headers
         )
         return response
