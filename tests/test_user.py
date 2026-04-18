@@ -60,3 +60,22 @@ class TestUser:
             ), (
                 f'{response.status_code} {response.text}'
             )
+
+    @allure.title('Login a user')
+    @allure.description('Login a user with existent data {registered_user}')
+    def text_login_existent_user(self, registered_user):
+        response = UserMethod(data.LOGIN_URL).register(
+            payload=registered_user
+        )
+        actual_user_data = response.get('user')
+        with allure.step('Checking the body of response {response.text}'):
+            assert (
+                response.status_code == HTTPStatus.OK
+                and
+                actual_user_data.get('email') == registered_user.get('email')
+                and
+                actual_user_data.get('name') == registered_user.get('name')
+            ), (
+                f'{response.status_code} {response.text}'
+            )
+    
