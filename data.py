@@ -2,7 +2,7 @@ from faker import Faker
 
 BASE_URL = 'https://stellarburgers.education-services.ru/api'
 REGISTER_URL = BASE_URL + '/auth/register'
-LOGIN_URL = BASE_URL + '/auth/register'
+LOGIN_URL = BASE_URL + '/auth/login'
 
 
 class UserData:
@@ -25,7 +25,7 @@ class UserData:
 
     @property
     def name(self):
-        return f'{self.faker.name()}{self.faker.random_int(min=1, max=100)}'
+        return f'{self.faker.name()}{self.faker.random_int(min=100, max=1000)}'
 
     @property
     def with_all_data(self):
@@ -51,3 +51,22 @@ class UserData:
         self.user['email'] = self.email
         self.user['password'] = self.password
         return self.user
+
+    @staticmethod
+    def data_for_login(user_data):
+        return {
+            'email': user_data.get('email'),
+            'password': user_data.get('password'),
+        }
+
+    @staticmethod
+    def change_email(user_data):
+        user = user_data['email'].split('@')
+        user[0] = user[0] + '123'
+        user_data['email'] = "".join(user)
+        return user_data
+    
+    @staticmethod
+    def change_password(user_data):
+        user_data['password'] = user_data['password'] + '123'
+        return user_data
