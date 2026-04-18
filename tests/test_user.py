@@ -24,3 +24,17 @@ class TestUser:
             ), (
                 f'{response.status_code} {response.text}'
             )
+
+    @allure.title('Create a user')
+    @allure.description('Create a user with existent data {registered_user}')
+    def test_create_user_with_existent_data(self, registered_user):
+        response = UserMethod(data.REGISTER_URL).register(
+            payload=registered_user
+        )
+        with allure.step('Checking the body of response {response.text}'):
+            assert (
+                response.status_code == HTTPStatus.FORBIDDEN and
+                response.text == '{"success":false,"message":"User already exists"}'
+            ), (
+                f'{response.status_code} {response.text}'
+            )
