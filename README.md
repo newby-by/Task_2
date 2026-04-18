@@ -69,7 +69,7 @@
     **REQUEST**
 
     ```bash
-    curl POST -i -H 'Content-Type:application/json' -d '{"email":"cruiz12@example.net","password":"Qfdrfrrrffv123","name":"Sharon Chen53"}' https://stellarburgers.education-services.ru/api/auth/login
+    curl POST -i -H 'Content-Type:application/json' -d '{"email":"cruiz12@example.net","password":"Qfdrfrrrffv123"}' https://stellarburgers.education-services.ru/api/auth/login
     ```
 
     **RESPONSE**
@@ -93,7 +93,28 @@
     xample.net","name":"Sharon Chen53"}}
     ```
 
-    login with wrong data;
+    login with wrong data:
+    **REQUEST**
+
+    ```bash
+    curl POST -i -H 'Content-Type:application/json' -d '{"email":"cr1111111111iz12@example.net","password":"Qfdrfrrrffv123"}' https://stellarburgers.education-services.ru/api/auth/login
+    ```
+
+    **RESPONSE**
+
+    ```json
+    HTTP/1.1 401 Unauthorized
+    Server: nginx/1.24.0 (Ubuntu)
+    Date: Sat, 18 Apr 2026 14:39:13 GMT
+    Content-Type: application/json; charset=utf-8
+    Content-Length: 61
+    Connection: keep-alive
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: *
+    ETag: W/"3d-ad9nrqlzQBuoZ0AId1U3rIgKU84"
+
+    {"success":false,"message":"email or password are incorrect"}
+    ```
 
 3. Change user data:
     change user data by an auth user;

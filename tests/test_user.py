@@ -63,11 +63,11 @@ class TestUser:
 
     @allure.title('Login a user')
     @allure.description('Login a user with existent data {registered_user}')
-    def text_login_existent_user(self, registered_user):
-        response = UserMethod(data.LOGIN_URL).register(
-            payload=registered_user
+    def test_login_existent_user(self, registered_user):
+        response = UserMethod(data.LOGIN_URL).login(
+            payload=data.UserData.data_for_login(registered_user)
         )
-        actual_user_data = response.get('user')
+        actual_user_data = response.json().get('user')
         with allure.step('Checking the body of response {response.text}'):
             assert (
                 response.status_code == HTTPStatus.OK
@@ -75,6 +75,21 @@ class TestUser:
                 actual_user_data.get('email') == registered_user.get('email')
                 and
                 actual_user_data.get('name') == registered_user.get('name')
+            ), (
+                f'{response.status_code} {response.text}'
+            )
+
+    @allure.title('Login a user')
+    @allure.description('Login a user with wrong data user: email or password {registered_user}')
+    @pytest.mark.parametrize('method', [data.UserData.change_email, data.UserData.change_password])
+    def test_login_with_wrong_data_user(self, method, registered_user):
+        response = UserMethod(data.LOGIN_URL).login(
+            payload=method(data.UserData.data_for_login(registered_user))
+        )
+        with allure.step('Checking the body of response {response.text}'):
+            assert (
+                response.status_code == HTTPStatus.UNAUTHORIZED and
+                response.text == '{"success":false,"message":"email or password are incorrect"}'
             ), (
                 f'{response.status_code} {response.text}'
             )
