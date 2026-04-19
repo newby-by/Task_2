@@ -9,15 +9,18 @@ class UserData:
 
     def __init__(self, locale='en_US'):
         self.faker = Faker(locale)
+        self.extra_word = f'{self.faker.word()}{self.faker.random_int(min=10, max=100)}'
         self.user = {
             'email': None,
             'password': None,
-            'name': None
+            'name': None,
         }
 
     @property
     def email(self):
-        return self.faker.email()
+        email_split = self.faker.email().split('@')
+        email_split[0] = email_split[0] + self.extra_word + '@'
+        return f'{"".join(email_split)}'
 
     @property
     def password(self):
@@ -25,7 +28,7 @@ class UserData:
 
     @property
     def name(self):
-        return f'{self.faker.name()}{self.faker.random_int(min=100, max=1000)}'
+        return f'{self.faker.name()}{self.extra_word}'
 
     @property
     def with_all_data(self):
@@ -55,18 +58,27 @@ class UserData:
     @staticmethod
     def data_for_login(user_data):
         return {
-            'email': user_data.get('email'),
-            'password': user_data.get('password'),
+            'email': user_data['email'],
+            'password': user_data['password'],
         }
 
     @staticmethod
-    def change_email(user_data):
+    def change_email(user_data, word='1'):
         user = user_data['email'].split('@')
-        user[0] = user[0] + '123'
+        user[0] = user[0] + word + '@'
         user_data['email'] = "".join(user)
         return user_data
     
     @staticmethod
-    def change_password(user_data):
-        user_data['password'] = user_data['password'] + '123'
+    def change_password(user_data, word='1'):
+        user_data['password'] = user_data['password'] + word
         return user_data
+    
+    @staticmethod
+    def auth_user_data(user_data, token):
+        return {
+            'email': user_data['email'],
+            'password': user_data['password'],
+            'name': user_data['name'],
+            'token': token
+        }
