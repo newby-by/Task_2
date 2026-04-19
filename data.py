@@ -3,6 +3,7 @@ from faker import Faker
 BASE_URL = 'https://stellarburgers.education-services.ru/api'
 REGISTER_URL = BASE_URL + '/auth/register'
 LOGIN_URL = BASE_URL + '/auth/login'
+USER_URL = BASE_URL + '/auth/user'
 
 
 class UserData:
@@ -73,12 +74,3 @@ class UserData:
     def change_password(user_data, word='1'):
         user_data['password'] = user_data['password'] + word
         return user_data
-    
-    @staticmethod
-    def auth_user_data(user_data, token):
-        return {
-            'email': user_data['email'],
-            'password': user_data['password'],
-            'name': user_data['name'],
-            'token': token
-        }

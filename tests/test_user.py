@@ -1,7 +1,9 @@
+import json
 from http import HTTPStatus
 
 import allure
 import pytest
+import requests
 
 import data
 from methods.user import UserMethod
@@ -93,4 +95,42 @@ class TestUser:
             ), (
                 f'{response.status_code} {response.text}'
             )
-    
+
+    @allure.title('Change a user data')
+    @allure.description('Change a user data by authorized user')
+    def test_change_user_data_by_auth_user(self, authorized_user_token):
+        headers = {
+            'Authorization': authorized_user_token,
+            'Content-Type': 'application/json'
+        }
+        new_user_data = data.UserData().without_password
+        response = UserMethod(data.USER_URL).change_data(
+            payload=json.dumps(new_user_data),
+            headers=headers
+        )
+        MESSAGE = ('{"success":true,"user":'
+                   '{"email":"' + f'{new_user_data.get('email')}",'
+                   '"name":"' + f'{new_user_data.get('name')}"' + '}}')
+        with allure.step('Checking the body of response {response.text}'):
+            assert (
+                response.status_code == HTTPStatus.OK and
+                response.text == MESSAGE
+            ), (
+                f'{response.status_code} {response.text}'
+            )
+
+    @allure.title('Change a user data')
+    @allure.description('Change a user data by guest')
+    def test_change_user_data_by_guest(self):
+        new_user_data = data.UserData().without_password
+        response = UserMethod(data.USER_URL).change_data(
+            payload=json.dumps(new_user_data)
+        )
+       
+        with allure.step('Checking the body of response {response.text}'):
+            assert (
+                response.status_code == HTTPStatus.UNAUTHORIZED and
+                response.text == '{"success":false,"message":"You should be authorised"}'
+            ), (
+                f'{response.status_code} {response.text}'
+            )

@@ -117,7 +117,35 @@
     ```
 
 3. Change user data:
-    change user data by an auth user;
+    change user data by an auth user
+     **REQUEST**
+
+    ```bash
+    curl PATCH -i -H 'Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ZTEzMmQ0OTg0MjcwMDAxYmU4NTE2OSIsImlhdCI6MTc3NjYyNTU1NywiZXhwIjoxNzc2NjI2NzU3fQ.9ZBm0eTMFe5H2ujIUxjkH1JF-v7fiirXJe1ip3fGdhw' -H 'Content-Type:application/json' -d '{"email":"cruiz12@example.net"}' https://stellarburgers.education-services.ru/api/auth/user
+    ```
+
+    **RESPONSE**
+
+    ```json
+    HTTP/1.1 200 OK
+    Server: nginx/1.24.0 (Ubuntu)
+    Date: Sat, 18 Apr 2026 14:27:21 GMT
+    Content-Type: application/json; charset=utf-8
+    Content-Length: 371
+    Connection: keep-alive
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: *
+    ETag: W/"173-n6/Ps1FpoLkw1H+EbTuHkFGlqVw"
+
+    {"success":true,"accessToken":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6I
+    kpXVCJ9.eyJpZCI6IjY5ZTEzMmQ0OTg0MjcwMDAxYmU4NTE2OSIsImlhdCI6MTc3NjU
+    yMjQ0MSwiZXhwIjoxNzc2NTIzNjQxfQ.OdOs2y8vvb32DVPg6olTQbAOpyibStOe73k
+    QONLvTxM","refreshToken":"7f5a54764edf0372c6b6d16894fa6789460ee0da6
+    4ab9fa5d64109c64739a762d6a7308db2cabe6f","user":{"email":"cruiz12@e
+    xample.net","name":"Sharon Chen53"}}
+    ```
+
+
     change user data by the guest;
 
 ```bash

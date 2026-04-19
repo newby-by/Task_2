@@ -16,3 +16,12 @@ class BaseMethod(ABC):
             headers=headers
         )
         return response
+    
+    def patch(self, *, payload, params=None, headers=None):
+        response = requests.patch(
+            url=self.url,
+            data=payload,
+            params=params,
+            headers=headers
+        )
+        return response
