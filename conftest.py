@@ -1,7 +1,10 @@
+import json
+
 import pytest
 
 import data
 from methods.user import UserMethod
+from methods.order import OrderMethod
 
 
 @pytest.fixture(scope='function')
@@ -29,3 +32,30 @@ def authorized_user_token(registered_user):
     )
    
     return response.json().get('accessToken')
+
+
+@pytest.fixture(scope='function')
+def registered_user_with_1_order_token(authorized_user_token):
+    headers = {
+            'Authorization': authorized_user_token,
+            'Content-Type': 'application/json'
+        }
+    OrderMethod(url=data.ORDER_URL).order(
+        payload=json.dumps(data.OrderData().buns_only),
+        headers=headers
+    )
+    
+    return authorized_user_token
+
+@pytest.fixture(scope='function')
+def registered_user_with_2_orders_token(registered_user_with_1_order_token):
+    headers = {
+            'Authorization': registered_user_with_1_order_token,
+            'Content-Type': 'application/json'
+        }
+    OrderMethod(url=data.ORDER_URL).order(
+        payload=json.dumps(data.OrderData().buns_and_sauce),
+        headers=headers
+    )
+    
+    return registered_user_with_1_order_token

@@ -15,6 +15,14 @@ class OrderMethod(BaseMethod):
 
         return response
     
+    @allure.step('Get a list of orders')
+    def orders_list(self, *, headers=None):
+        response = self.get(
+            headers=headers
+        )
+
+        return response
+    
     @staticmethod
     def get_ids(response):
         _data = response.json().get('order').get('ingredients')
