@@ -3,8 +3,8 @@ import json
 import pytest
 
 import data
-from methods.user import UserMethod
 from methods.order import OrderMethod
+from methods.user import UserMethod
 
 
 @pytest.fixture(scope='function')
@@ -35,7 +35,7 @@ def authorized_user_token(registered_user):
     response = UserMethod(data.LOGIN_URL).login(
             payload=data.UserData.data_for_login(registered_user)
     )
-   
+
     return response.json().get('accessToken')
 
 
@@ -49,8 +49,9 @@ def registered_user_with_1_order_token(authorized_user_token):
         payload=json.dumps(data.OrderData().buns_only),
         headers=headers
     )
-    
+
     return authorized_user_token
+
 
 @pytest.fixture(scope='function')
 def registered_user_with_2_orders_token(registered_user_with_1_order_token):
@@ -62,5 +63,5 @@ def registered_user_with_2_orders_token(registered_user_with_1_order_token):
         payload=json.dumps(data.OrderData().buns_and_sauce),
         headers=headers
     )
-    
+
     return registered_user_with_1_order_token

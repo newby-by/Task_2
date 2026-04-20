@@ -3,7 +3,6 @@ from http import HTTPStatus
 
 import allure
 import pytest
-import requests
 
 import data
 from methods.user import UserMethod
@@ -82,8 +81,11 @@ class TestUser:
             )
 
     @allure.title('Login a user')
-    @allure.description('Login a user with wrong data user: email or password {registered_user}')
-    @pytest.mark.parametrize('method', [data.UserData.change_email, data.UserData.change_password])
+    @allure.description('Login a user with wrong data user: email '
+                        'or password {registered_user}')
+    @pytest.mark.parametrize('method',
+                             [data.UserData.change_email,
+                              data.UserData.change_password])
     def test_login_with_wrong_data_user(self, method, registered_user):
         response = UserMethod(data.LOGIN_URL).login(
             payload=method(data.UserData.data_for_login(registered_user))
@@ -91,7 +93,8 @@ class TestUser:
         with allure.step('Checking the body of response {response.text}'):
             assert (
                 response.status_code == HTTPStatus.UNAUTHORIZED and
-                response.text == '{"success":false,"message":"email or password are incorrect"}'
+                response.text == ('{"success":false,"message":'
+                                  '"email or password are incorrect"}')
             ), (
                 f'{response.status_code} {response.text}'
             )
@@ -126,11 +129,12 @@ class TestUser:
         response = UserMethod(data.USER_URL).change_data(
             payload=json.dumps(new_user_data)
         )
-       
+
         with allure.step('Checking the body of response {response.text}'):
             assert (
                 response.status_code == HTTPStatus.UNAUTHORIZED and
-                response.text == '{"success":false,"message":"You should be authorised"}'
+                response.text == ('{"success":false,'
+                                  '"message":"You should be authorised"}')
             ), (
                 f'{response.status_code} {response.text}'
             )

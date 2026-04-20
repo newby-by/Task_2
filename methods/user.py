@@ -14,7 +14,7 @@ class UserMethod(BaseMethod):
     def login(self, payload):
         response = self.post(payload=payload)
         return response
-    
+
     def change_data(self, *, payload=None, headers=None):
         response = self.patch(payload=payload, headers=headers)
         return response

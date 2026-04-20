@@ -2,6 +2,7 @@ from faker import Faker
 
 from methods.ingredient import IngredientMethod
 
+
 MAX_NUMBER_OD_ORDER_IN_LIST = 50
 
 BASE_URL = 'https://stellarburgers.education-services.ru/api'
@@ -12,11 +13,13 @@ ORDER_URL = BASE_URL + '/orders'
 ALL_ORDERS_URL = ORDER_URL + '/all'
 INGREDIENT_URL = BASE_URL + '/ingredients'
 
+
 class UserData:
 
     def __init__(self, locale='en_US'):
         self.faker = Faker(locale)
-        self.extra_word = f'{self.faker.word()}{self.faker.random_int(min=10, max=100)}'
+        self.extra_word = (f'{self.faker.word()}'
+                           f'{self.faker.random_int(min=10, max=100)}')
         self.user = {
             'email': None,
             'password': None,
@@ -75,7 +78,7 @@ class UserData:
         user[0] = user[0] + word + '@'
         user_data['email'] = "".join(user)
         return user_data
-    
+
     @staticmethod
     def change_password(user_data, word='1'):
         user_data['password'] = user_data['password'] + word
@@ -86,28 +89,32 @@ class OrderData:
 
     def __init__(self):
         self.faker = Faker()
-        self.ingredients = {"ingredients":[]}
-        self._data = IngredientMethod(url=INGREDIENT_URL).get_ingredients()
-        self._buns, self._sauce, self._main, self._unknown = OrderData._get_data(self._data)
+        self.ingredients = {"ingredients": []}
+        self._data = IngredientMethod(
+            url=INGREDIENT_URL).get_ingredients()
+        (self._buns,
+         self._sauce,
+         self._main,
+         self._unknown) = OrderData._get_data(self._data)
         if self._unknown != []:
             raise ValueError(f"Database has unknown type {self._unknown}")
-    
+
     @property
     def empty_order(self):
         return self.ingredients
-    
+
     @property
     def wrong_id(self):
-        self.ingredients = {"ingredients":["0"]}
+        self.ingredients = {"ingredients": ["0"]}
         return self.ingredients
-    
+
     @property
     def buns_only(self):
         self.ingredients["ingredients"] = [
             self.faker.random_element(self._buns).get('_id')
         ]
         return self.ingredients
-    
+
     @property
     def buns_and_sauce(self):
         self.ingredients["ingredients"] = [
@@ -116,7 +123,7 @@ class OrderData:
         ]
 
         return self.ingredients
-    
+
     @staticmethod
     def _get_data(_data):
         _buns = []
@@ -127,10 +134,10 @@ class OrderData:
         for el in _data:
             if el['type'] == 'bun':
                 _buns.append(el)
-            elif el['type'] == 'sauce': 
+            elif el['type'] == 'sauce':
                 _sauce.append(el)
             elif el['type'] == 'main':
                 _main.append(el)
             else:
                 _.append(el)
-        return  _buns, _sauce, _main, _
+        return _buns, _sauce, _main, _

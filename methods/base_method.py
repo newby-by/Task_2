@@ -4,7 +4,7 @@ import requests
 
 
 class BaseMethod(ABC):
-     
+
     def __init__(self, url):
         self.url = url
 
@@ -13,7 +13,7 @@ class BaseMethod(ABC):
             url=self.url,
             headers=headers
         )
-        return  response
+        return response
 
     def post(self, *, payload, params=None, headers=None):
         response = requests.post(
@@ -23,7 +23,7 @@ class BaseMethod(ABC):
             headers=headers
         )
         return response
-    
+
     def patch(self, *, payload, params=None, headers=None):
         response = requests.patch(
             url=self.url,

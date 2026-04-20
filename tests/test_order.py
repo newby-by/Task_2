@@ -28,7 +28,7 @@ class TestOrder:
 
         assert (response.status_code == HTTPStatus.OK and
                 len(order_data.get('ingredients')) ==
-                len(OrderMethod.get_ids(response))) 
+                len(OrderMethod.get_ids(response)))
 
     @allure.title('Order a burger')
     @allure.description('with auth user and without ingredients')
@@ -63,7 +63,7 @@ class TestOrder:
         )
 
         assert response.status_code == HTTPStatus.INTERNAL_SERVER_ERROR
-    
+
     @allure.title('Order a burger')
     @allure.description('with guest and order data {order_data}')
     @pytest.mark.parametrize(
@@ -77,7 +77,7 @@ class TestOrder:
         assert (response.status_code == HTTPStatus.BAD_REQUEST and
                 response.text == ('{"success":false,"message":'
                                   '"Ingredient ids must be provided"}'))
-    
+
     @allure.title('Order a burger')
     @allure.description('with guest user and without ingredients')
     def test_create_order_by_guest_user_without_ingredients(self):
