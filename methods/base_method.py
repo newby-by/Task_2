@@ -8,6 +8,13 @@ class BaseMethod(ABC):
     def __init__(self, url):
         self.url = url
 
+    def get(self, *, headers=None):
+        response = requests.get(
+            url=self.url,
+            headers=headers
+        )
+        return  response
+
     def post(self, *, payload, params=None, headers=None):
         response = requests.post(
             url=self.url,
