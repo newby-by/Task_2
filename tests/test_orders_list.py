@@ -57,3 +57,18 @@ class TestOrderList:
         assert (response.status_code == HTTPStatus.UNAUTHORIZED and
                 response.text == ('{"success":false,"message":'
                                   '"You should be authorised"}'))
+        
+    @allure.title('Get a list of all orders')
+    @allure.description('With auth user and quest user')
+    @pytest.mark.parametrize('fixture', ['authorized_user_token', 'empty_token'])
+    def test_get_list_of_all_orders_auth_user(self, fixture, request):
+        headers = {
+            'Authorization': request.getfixturevalue(fixture),
+        }
+        response = OrderMethod(url=data.ALL_ORDERS_URL).orders_list(
+            headers=headers
+        )
+
+        assert (response.status_code == HTTPStatus.OK and
+                len(response.json().get('orders')) ==
+                data.MAX_NUMBER_OD_ORDER_IN_LIST)
